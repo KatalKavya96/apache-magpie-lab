@@ -1056,3 +1056,29 @@ tools/sourcehut/
 │   ├── todo.py
 │   └── py.typed
 └── tests/test_sourcehut.py
+
+Implementation note for #606:
+
+I’ve opened an initial Bitbucket bridge PR with a deliberately small read-only scope. This PR adds `tools/bitbucket` as a Python package and provides the foundation for Bitbucket Cloud and Bitbucket Data Center support.
+
+Current coverage:
+
+* Auth/config preflight through `magpie-bitbucket auth-check`
+* Repository metadata fetch through `magpie-bitbucket repo get`
+* Open pull request listing through `magpie-bitbucket pr list-open`
+* Single pull request fetch through `magpie-bitbucket pr get <id>`
+* Separate Cloud/Data Center API modules behind one CLI surface
+* Normalized output so consuming skills do not need to know which Bitbucket backend answered
+* Mocked tests for config, auth header generation, URL construction, normalization, and CLI dispatch
+* Capability/vendor-neutrality/workspace docs updated
+
+Intentional non-goals for this first PR:
+
+* No write operations yet
+* No PR approve/review/comment/merge yet
+* No Bitbucket Issues write path yet
+* No linked Jira handoff yet
+* No branch permission/restriction handling yet
+* No Bitbucket Pipelines status reads yet
+
+The goal is to establish a safe foundation first, then follow up with the deeper tracker/change-request features in smaller PRs.
